@@ -4,6 +4,7 @@ def numbers():
     data = data.split(',')
     for i in data:
         print (i)
+    file.close()
 
 if __name__ == '__main__':
     numbers()

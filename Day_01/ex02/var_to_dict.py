@@ -21,10 +21,13 @@ def to_dict():
     ('Thompson',    '1949'),
     ('Burton',      '1939')
     ]
-    new_d = {}
+    my_dict = {}
     for a, b in d:
-        new_d[b] = a
-    for key, value in new_d.items():
+        if b in my_dict:
+            my_dict[b] = my_dict[b] + " " + (a)
+        else:
+            my_dict.update({b:a})
+    for key, value in my_dict.items():
         print (key, ":", value)
 
 
