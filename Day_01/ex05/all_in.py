@@ -43,7 +43,6 @@ def all_in(argv):
     parse_str = argv[1].split(',')
     parse_str = [i.lower() for i in parse_str]
     parse_str = [i.title() for i in parse_str]
-    print ("test:", parse_str)
     for i in range(len(parse_str)):
         parse_str[i] = parse_str[i].strip()
     for i in parse_str:

@@ -1,5 +1,4 @@
 def take_second(elem):
-    print(elem)
     return elem[1]
 
 def my_sort():
@@ -32,3 +31,4 @@ def my_sort():
 
 if __name__ == '__main__':
     my_sort()
+

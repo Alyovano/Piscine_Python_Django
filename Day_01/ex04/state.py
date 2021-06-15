@@ -2,7 +2,6 @@ import sys
 
 def state(argv):
     if len(argv) != 2:
-        print ("Need one argument")
         return 1
 
     capital_cities = {
