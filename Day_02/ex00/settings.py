@@ -1,2 +1,4 @@
-def test():
-    name = "Petite Perruche"
+name = "Jhon"
+surname = "Doe"
+age = "45"
+pro = "Boulanger"
