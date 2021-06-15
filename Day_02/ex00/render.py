@@ -4,9 +4,10 @@ def createHTMLFromTemplate(validFile):
     with open(validFile, "r") as file:
         data = file.read()
     data = data.format(name=settings.name, surname=settings.surname, age=settings.age, pro=settings.pro)
-    print(data)
     with open('file.html', 'w') as f:
         f.write(data)
+    file.close()
+    f.close()
 
 def FileCheck(filePath):
     try:
