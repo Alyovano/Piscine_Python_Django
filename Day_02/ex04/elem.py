@@ -1,34 +1,36 @@
 #!/usr/bin/python3
-
-
 class Text(str):
     """
     A Text class to represent a text you could use with your HTML elements.
-
     Because directly using str class was too mainstream.
     """
-
     def __str__(self):
         """
         Do you really need a comment to understand this method?..
         """
-        return super().__str__().replace('\n', '\n<br />\n')
-
-
+        return super().__str__().replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace('\n', '\n<br />\n')
+        #la methode renvoie la string construite avec le remplacement des caracteres indique
+        #rajouter les replaces nécéssaires au bon fonctionnement de la fonction
 class Elem:
     """
     Elem will permit us to represent our HTML elements.
     """
-    [...]
-
+    class ValidationError(Exception):
+        def __init__(self, message = "Unexpected Content"):
+            Exception.__init__(self, message)
     def __init__(self, tag='div', attr={}, content=None, tag_type='double'):
         """
         __init__() method.
-
         Obviously.
         """
-        [...]
-
+        self.tag = tag
+        self.attr = attr
+        self.content = []
+        self.tag_type = tag_type
+        if content:
+            self.add_content(content)
+        elif content != None and not isinstance(content, Text):
+            raise Elem.ValidationError
     def __str__(self):
         """
         The __str__() method will permit us to make a plain HTML representation
@@ -36,12 +38,12 @@ class Elem:
         Make sure it renders everything (tag, attributes, embedded
         elements...).
         """
+        #reconstruire le html a retourner correctement 
         if self.tag_type == 'double':
-            [...]
+            result = "<{tag}{attr}>{content}</{tag}>".format(tag = str(self.tag), attr = self.__make_attr(), content = self.__make_content())
         elif self.tag_type == 'simple':
-            [...]
+            result = "<{tag}{attr}></{tag}>".format(tag = str(self.tag), attr = self.__make_attr())
         return result
-
     def __make_attr(self):
         """
         Here is a function to render our elements attributes.
@@ -50,19 +52,17 @@ class Elem:
         for pair in sorted(self.attr.items()):
             result += ' ' + str(pair[0]) + '="' + str(pair[1]) + '"'
         return result
-
     def __make_content(self):
         """
         Here is a method to render the content, including embedded elements.
         """
-
+        #reconstruire le content correctement
         if len(self.content) == 0:
             return ''
         result = '\n'
         for elem in self.content:
-            result += [...]
+            result += "  " + str(elem).replace('\n', '\n  ') + "\n"
         return result
-
     def add_content(self, content):
         if not Elem.check_type(content):
             raise Elem.ValidationError
@@ -70,7 +70,6 @@ class Elem:
             self.content += [elem for elem in content if elem != Text('')]
         elif content != Text(''):
             self.content.append(content)
-
     @staticmethod
     def check_type(content):
         """
@@ -81,7 +80,10 @@ class Elem:
                 (type(content) == list and all([type(elem) == Text or
                                                 isinstance(elem, Elem)
                                                 for elem in content])))
-
-
+def test():
+    html = Elem('html', content = [Elem('head', content = Elem('title', content = Text('\"Hello ground!\"'))),
+        Elem('body', content = [Elem('h1', content = Text("\"Oh no, no again!\"")),
+            Elem('img', {'src': 'http://i.imgur.com/pfp3T.jpg'}, tag_type = 'simple')])])
+    print(html)
 if __name__ == '__main__':
-    [...]
+    test()
